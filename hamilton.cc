@@ -2,6 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <math.h>
 using namespace std;
 
 
@@ -23,13 +24,11 @@ bool equalEdge(edge e1, edge e2) {
 
 
 int nodenumber = 0;
-int cnfvarcount = 0;
 int cnfcount = 0;
 edge currentedge;
 
 
 void writevariables1() {
-	cnfvarcount = nodenumber * nodenumber;
 
 	// every node has to be in the path
 	for (int node = 0; node < nodenumber; node++) {
@@ -133,7 +132,13 @@ main (int argc, char* argv[]) {
 					iss >> word; // should be "edge"
 					iss >> word; // should be the number of nodes
 					nodenumber = stoi(word);
+					iss >> word; // should be the number of the edges; might be wrong, but minisat can handle a wrong number of conditions as well
+					int edgenumber = stoi(word);
+					int conditionsnumber = 2 * pow(nodenumber, 3) - 2 * pow(nodenumber, 2) + nodenumber * ( 2 - edgenumber );
+
+					cout << "p cnf " << pow(nodenumber, 2) << " " << conditionsnumber << endl;
 					writevariables1();
+					
 					processingEdges = true;
 					break;
     		}
