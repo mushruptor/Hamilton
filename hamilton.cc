@@ -145,6 +145,9 @@ main (int argc, char* argv[]) {
 
     	}
 
+
+    	edge newedge;
+
     	while ( getline (myfile, line) ) {
     		char c = line[0];
 
@@ -159,7 +162,10 @@ main (int argc, char* argv[]) {
 				iss >> word; // should be the second node of the processed edge
 				int node2 = stoi(word) - 1;
 
-				edge newedge;
+				if ( newedge.n1 == node1 && newedge.n2 == node2 ) {
+					continue;
+				}
+
 				newedge.n1 = node1;
 				newedge.n2 = node2;
 
