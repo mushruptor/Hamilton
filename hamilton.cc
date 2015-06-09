@@ -30,41 +30,33 @@ edge currentedge;
 
 void writevariables1() {
 
-	// every node has to be in the path
-	for (int node = 0; node < nodenumber; node++) {
-		for (int position = 0; position < nodenumber; position++) {
-			int var = node * nodenumber + position + 1;
+	for (int x = 0; x < nodenumber; x++) {
+
+		// every node x has to be in the path on some position y
+		for (int y = 0; y < nodenumber; y++) {
+			int var = x * nodenumber + y + 1;
 			cout << var << " ";
 		}
 		cout << "0" << endl;
-	}
 
-	// no node can appear twice in the path
-	for (int node = 0; node < nodenumber; node++) {
-		for (int position1 = 0; position1 < nodenumber; position1++) {
-			for (int position2 = position1 + 1; position2 < nodenumber; position2++) {
-				int var1 = node * nodenumber + position1 + 1;
-				int var2 = node * nodenumber + position2 + 1;
+		// every position x has to be occupied by at least one node y
+		for (int y = 0; y < nodenumber; y++) {
+			int var = y * nodenumber + x + 1;
+			cout << var << " ";
+		}
+		cout << "0" << endl;
+
+		for (int y1 = 0; y1 < nodenumber; y1++) {
+			for (int y2 = y1 + 1; y2 < nodenumber; y2++) {
+				
+				// no node x can appear twice in the path (on two positions y1 and y2)
+				int var1 = x * nodenumber + y1 + 1;
+				int var2 = x * nodenumber + y2 + 1;
 				cout << -var1 << " " << -var2 << " 0" << endl;
-			}
-		}
-	}
 
-	// every position has to be occupied by at least one node
-	for (int position = 0; position < nodenumber; position++) {
-		for (int node = 0; node < nodenumber; node++) {
-			int var = node * nodenumber + position + 1;
-			cout << var << " ";
-		}
-		cout << "0" << endl;
-	}
-
-	// no position can be occupied by two nodes
-	for (int position = 0; position < nodenumber; position++) {
-		for (int node1 = 0; node1 < nodenumber; node1++) {
-			for (int node2 = node1 + 1; node2 < nodenumber; node2++) {
-				int var1 = node1 * nodenumber + position + 1;
-				int var2 = node2 * nodenumber + position + 1;
+				// no position x can be occupied by two nodes y1 and y2
+				var1 = y1 * nodenumber + x + 1;
+				var2 = y2 * nodenumber + x + 1;
 				cout << -var1 << " " << -var2 << " 0" << endl;
 			}
 		}
