@@ -1,0 +1,7 @@
+The files in this directory can be used to create graph files.
+
+Setup:
+	run "make" to build the generator
+	
+Usage:
+	run "./hc-gen" to see the help for the tool

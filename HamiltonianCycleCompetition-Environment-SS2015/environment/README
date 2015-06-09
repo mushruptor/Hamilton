@@ -1,0 +1,30 @@
+This project contains the required files to run the hamiltonian cycle competition.
+
+Setup:
+
+	1) Build the verifier and create the directories:
+		run "make"
+	2) Adding graphs files that should be solved into the directory "graphs"
+		run the script "./prepare.sh", which builts the file "files.list"
+		  if you want to use a specific timeout, add a blank and the timeout in seconds to a line
+	3) set up your solver
+		  Assume, your solver is called "SOLVER".
+		create a directory "SOLVER" in the "solvers/" directory
+		copy all files that are required by your solver into the newly created directory
+		open the file "solvers.list"
+		add a line for your solver "SOLVER <how to call your solver>"
+			Note, the solver name is put first on the line
+			Afterwards, you have to put the call of your solver, e.g.:
+				"java -jar Jsolver.jar"
+				or "./Csolver -file="
+			Note, when your solver is called, the file is passed as last parameter
+			
+Solve the files and evaluate:
+	1) run "python competition.py solvers.list files.list"
+	
+	2) The evaluation can be seen in the file evaluation.dat
+
+	3) A visualization of the solved instances and run time is presented in the files
+	   visualization.pdf and visualization.eps. These files are generated after the evaluation 
+	   of all solvers finished. Note: this graph does not use the information no disqualified solver
+
