@@ -20,7 +20,7 @@ struct edge
 	
 	inline bool operator==(const edge &p1)
 	{
-		return (p1.n1 == n1 and p1.n2 == n2);
+		return (p1.n1 == n1 && p1.n2 == n2);
 	}
 	
 	edge& operator =(const edge &p1)
@@ -33,7 +33,11 @@ struct edge
 
 inline bool operator<(const edge &p1, const edge &p2) 
 {
-	return p1.n1 < p2.n1;
+	if (p1.n1 != p2.n1) {
+		return p1.n1 < p2.n1;
+	} else {
+		return p1.n2 < p2.n2;
+	}
 }
 
 bool equalEdge(edge e1, edge e2) {
@@ -44,7 +48,7 @@ int nodenumber = 0;
 int cnfcount = 0;
 edge currentedge;
 
-set<edge> nodeset;
+set<edge> edgeset;
 	
 
 void writevariables1() {
@@ -158,8 +162,7 @@ main (int argc, char* argv[]) {
     	}
 
 
-    	edge newedge;
-    	edge node;
+    	edge readEdge;
 
     	while ( getline (myfile, line) ) {
     		char c = line[0];
@@ -170,29 +173,30 @@ main (int argc, char* argv[]) {
 				istringstream iss(line);
     			iss >> word; // should be "e"
 				iss >> word; // should be the first node of the processed edge
-				node.n1 = stoi(word) - 1;
+				readEdge.n1 = stoi(word) - 1;
 				iss >> word; // should be the second node of the processed edge
-				node.n2 = stoi(word) - 1;
+				readEdge.n2 = stoi(word) - 1;
 
-				if ( newedge == node ) {
-					continue;
-				}
-
-				newedge = node;
-
-				while ( incCurrentedge() && !equalEdge(newedge, currentedge) ) {
-					writevariables2(currentedge);
-				}
+				edgeset.insert(readEdge);
     		}
     	}
-
-
     	myfile.close();
-    	
-    	while (incCurrentedge()) {
-				writevariables2(currentedge);
-		}
 
+    	cout << "EDGESET: " << endl;
+    	set<edge>::iterator iter;
+    	for(iter=edgeset.begin(); iter!=edgeset.end();++iter) {
+    		cout << iter->n1 << " " << iter->n2 << endl;
+    	}
+    	cout << "EDGESET END " << endl;
+
+    	cout << "NODENUMBER = " << nodenumber << endl;
+
+		while (incCurrentedge()) {
+			if (edgeset.find(currentedge) == edgeset.end()) {
+				writevariables2(currentedge);
+			}
+		}
+    	
     } else cout << "Unable to open file" << endl; 
 
 	return 0;

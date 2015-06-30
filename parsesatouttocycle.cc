@@ -49,7 +49,7 @@ main (int argc, char* argv[]) {
     	for (unsigned j = 0; j < nodenumber - 1; j++) {
     		cout << nodes[j] + 1 << " ";
     	}
-        cout << nodes[nodenumber - 1] << endl;
+        cout << nodes[nodenumber - 1] + 1 << endl;
 
 	}
 
