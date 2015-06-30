@@ -3,6 +3,7 @@
 #include <sstream>
 #include <string>
 #include <math.h>
+#include <set>
 using namespace std;
 
 
@@ -12,21 +13,39 @@ using namespace std;
  */
 
 
-struct edge {
+struct edge 
+{
 	int n1;
 	int n2;
+	
+	inline bool operator==(const edge &p1)
+	{
+		return (p1.n1 == n1 and p1.n2 == n2);
+	}
+	
+	edge& operator =(const edge &p1)
+	{
+		n1 = p1.n1;
+		n2 = p1.n2;
+		return *this;
+	}	
 };
 
+inline bool operator<(const edge &p1, const edge &p2) 
+{
+	return p1.n1 < p2.n1;
+}
 
 bool equalEdge(edge e1, edge e2) {
 	return e1.n1 == e2.n1 && e1.n2 == e2.n2;
 }
 
-
 int nodenumber = 0;
 int cnfcount = 0;
 edge currentedge;
 
+set<edge> nodeset;
+	
 
 void writevariables1() {
 
@@ -67,12 +86,13 @@ void writevariables1() {
 
 
 void writevariables2(edge e) {
-	int node1 = e.n1;
-	int node2 = e.n2;
+	//gleich e nehmen
+	
+	edge node = e;
 
 	for (int position = 0; position < nodenumber; position++) {
-		int var1 = node1 * nodenumber + position + 1;
-		int var2 = node2 * nodenumber + ((position + 1) % nodenumber) + 1;
+		int var1 = node.n1 * nodenumber + position + 1;
+		int var2 = node.n2 * nodenumber + ((position + 1) % nodenumber) + 1;
 		cout << -var1 << " " << -var2 << " 0" << endl;
 	}
 }
@@ -103,6 +123,8 @@ main (int argc, char* argv[]) {
 	// Start with the edge from node 0 to node 0. This will not be used as it is incremented before its first use.
 	currentedge.n1 = 0;
 	currentedge.n2 = 0;
+	
+	string word;
 
 	string line; 
 	string filename = argv[1];
@@ -118,7 +140,6 @@ main (int argc, char* argv[]) {
     			case 'c': 
     				continue;
     			case 'p':
-    				string word;
 					istringstream iss(line);
     				iss >> word; // should be "p"
 					iss >> word; // should be "edge"
@@ -134,11 +155,11 @@ main (int argc, char* argv[]) {
 					processingEdges = true;
 					break;
     		}
-
     	}
 
 
     	edge newedge;
+    	edge node;
 
     	while ( getline (myfile, line) ) {
     		char c = line[0];
@@ -146,26 +167,23 @@ main (int argc, char* argv[]) {
     		if ( c == 'c' ) {
     			continue;
     		} else if ( c == 'e' ) {
-    			string word;
 				istringstream iss(line);
     			iss >> word; // should be "e"
 				iss >> word; // should be the first node of the processed edge
-				int node1 = stoi(word) - 1;
+				node.n1 = stoi(word) - 1;
 				iss >> word; // should be the second node of the processed edge
-				int node2 = stoi(word) - 1;
+				node.n2 = stoi(word) - 1;
 
-				if ( newedge.n1 == node1 && newedge.n2 == node2 ) {
+				if ( newedge == node ) {
 					continue;
 				}
 
-				newedge.n1 = node1;
-				newedge.n2 = node2;
+				newedge = node;
 
 				while ( incCurrentedge() && !equalEdge(newedge, currentedge) ) {
 					writevariables2(currentedge);
 				}
     		}
-
     	}
 
 
