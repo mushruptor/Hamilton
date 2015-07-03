@@ -181,7 +181,7 @@ main (int argc, char* argv[]) {
     		}
     	}
     	myfile.close();
-
+/*
     	cout << "EDGESET: " << endl;
     	set<edge>::iterator iter;
     	for(iter=edgeset.begin(); iter!=edgeset.end();++iter) {
@@ -190,7 +190,7 @@ main (int argc, char* argv[]) {
     	cout << "EDGESET END " << endl;
 
     	cout << "NODENUMBER = " << nodenumber << endl;
-
+*/
 		while (incCurrentedge()) {
 			if (edgeset.find(currentedge) == edgeset.end()) {
 				writevariables2(currentedge);
