@@ -20,7 +20,19 @@ main (int argc, char* argv[])
 	
 	if (myfile.is_open()) 
     {	
-		getline (myfile, line); // should be "SAT"
+		getline (myfile, line); // is "SAT" or "UNSAT"
+
+        if (line == "UNSAT")
+        {
+            cout << "s UNSATISFIABLE" << endl;
+            return 20;
+        }
+        if (line != "SAT")
+        {
+            // unknown output
+            return 33;
+        }
+
 		getline (myfile, line); // should be the solution of the SAT problem
 
 		string word;
@@ -50,6 +62,7 @@ main (int argc, char* argv[])
   			nodes[position] = node;
     	}
 
+        cout << "s SATISFIABLE" << endl;
         cout << "v ";
     	for (unsigned long j = 0; j < nodenumber - 1; j++) 
         {
@@ -58,5 +71,5 @@ main (int argc, char* argv[])
         cout << nodes[nodenumber - 1] + 1 << endl;
 	}
 
-	return 0;
+	return 10;
 }
